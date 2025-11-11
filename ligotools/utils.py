@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
 def whiten(strain, interp_psd, dt):
-    """Function to whiten data"""
     Nt = len(strain)
     freqs = np.fft.rfftfreq(Nt, dt)
     freqs1 = np.linspace(0, 2048, Nt // 2 + 1)
@@ -17,15 +16,11 @@ def whiten(strain, interp_psd, dt):
     return white_ht
 
 def write_wavfile(filename,fs,data):
-    """Function to keep the data within integer limits, and write to wavfile:"""
     d = np.int16(data/np.max(np.abs(data)) * 32767 * 0.9)
     wavfile.write(filename, int(fs), d)
 
 def reqshift(data,fshift=100,sample_rate=4096):
-    """
-    Function that shifts frequency of a band-passed signal.
-    Frequency shift the signal by constant (fshift)
-    """
+
     x = np.fft.rfft(data)
     T = len(data)/float(sample_rate)
     df = 1.0/T
@@ -39,7 +34,6 @@ def reqshift(data,fshift=100,sample_rate=4096):
 def plot_event(det, template_match, strain_whitenbp, 
                time, timemax, SNR, eventname, plottype, tevent, template_fft,
                  datafreq, freqs, data_psd, d_eff, fs):
-    """Function to plot changes for the detectors"""
     if det == 'L1': pcolor='g'
     else: pcolor='r'
 
